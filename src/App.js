@@ -8,9 +8,9 @@ function App() {
     <div className="App" style={{display:'flex', paddingTop:'4rem', justifyContent:'center'}}>
       <header className="App-header" style={{display:'flex', flexDirection:'row'}} >
         
-        {/* <div style={{backgroundColor:'white', height:'3rem', width:'5rem', boxShadow:'inset 2px 2px 2px 2px black'}} ></div> */}
-        <UserCard />
-        {/* <Typography variant='h2'> Hey World!</Typography> */}
+        
+        <UserCard name='name' email='email' phone='phone' website='website'/>
+        
       </header>
     </div>
   );
