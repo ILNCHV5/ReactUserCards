@@ -8,7 +8,11 @@ const styles = {
         mb: '1.5rem',
         left: '-2rem',
         backgroundColor: 'white',
-        '&:hover': { opacity: '1', backgroundColor: '#ebebeb', color:'red' }
+    '&:hover': { opacity: '1', backgroundColor: '#ebebeb', /*color:'red' */}
+        
+    },
+    Red:{
+        color: 'red'
     },
     deleteIconStyle: {
         mb: '1.5rem',

@@ -6,16 +6,27 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Box from '@mui/material/Box';
 import styles from '../styles/cardStyles';
-
-
+import { useState } from "react";
 
 export function UserCard(props) {
 
     const cardAvatar = `https://avatars.dicebear.com/v2/avataaars/{${props.name}}.svg?options[mood][]=happy`;
+    const [favStatus, setFavStatus] = useState(props.favStatus);
 
-    const favoriteOnClick = () => {
-        
+    const addToFavs = () => {
+        if (props.favs.indexOf({ id: props.id }) !== 1) {
+            props.setFavs([...props.favs, { id: props.id }]);
+            setFavStatus(true);
+        }
     };
+
+    const removeFromFavs = () => {
+        const reducedFavs = props.favs.filter((item) => (item.id !== props.id));
+        props.setFavs(reducedFavs);
+        setFavStatus(false);
+    };
+
+    const handleFavs = (favStatus ? removeFromFavs : addToFavs);
 
     const deleteOnClick = () => {
         const filteredList = props.data.filter((item) => (item.id !== props.id));
@@ -26,8 +37,8 @@ export function UserCard(props) {
 
         < Box >
             <CardActions sx={styles.cardActionStyle}>
-                <IconButton size="large" sx={styles.FavIconStyle}>
-                    <FavoriteIcon />
+                <IconButton size="large" sx={styles.FavIconStyle} onClick={handleFavs}>
+                    <FavoriteIcon color={favStatus ? 'error' : 'gray'}> </FavoriteIcon>
                 </IconButton>
                 <IconButton size="large" sx={styles.deleteIconStyle} onClick={deleteOnClick}>
                     <DeleteIcon />
