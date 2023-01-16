@@ -14,21 +14,21 @@ export function UserCard(props) {
     const [favStatus, setFavStatus] = useState(props.favStatus);
 
     const addToFavs = () => {
-        if (props.favs.indexOf({ id: props.id }) !== 1) {
-            props.setFavs([...props.favs, { id: props.id }]);
+        if (props.favorites.indexOf({ id: props.id }) !== 1) {
+            props.setFavorites([...props.favorites, { id: props.id }]);
             setFavStatus(true);
         }
     };
 
     const removeFromFavs = () => {
-        const reducedFavs = props.favs.filter((item) => (item.id !== props.id));
-        props.setFavs(reducedFavs);
+        const reducedFavs = props.favorites.filter((item) => (item.id !== props.id));
+        props.setFavorites(reducedFavs);
         setFavStatus(false);
     };
 
     const handleFavs = (favStatus ? removeFromFavs : addToFavs);
 
-    const deleteOnClick = () => {
+    const handleDelete = () => {
         const filteredList = props.data.filter((item) => (item.id !== props.id));
         props.setData(filteredList);
     };
@@ -38,9 +38,9 @@ export function UserCard(props) {
         < Box >
             <CardActions sx={styles.cardActionStyle}>
                 <IconButton size="large" sx={styles.FavIconStyle} onClick={handleFavs}>
-                    <FavoriteIcon color={favStatus ? 'error' : 'gray'}> </FavoriteIcon>
+                    <FavoriteIcon color={favStatus ? 'action' : 'gray'}> </FavoriteIcon>
                 </IconButton>
-                <IconButton size="large" sx={styles.deleteIconStyle} onClick={deleteOnClick}>
+                <IconButton size="large" sx={styles.deleteIconStyle} onClick={handleDelete}>
                     <DeleteIcon />
                 </IconButton>
             </CardActions>

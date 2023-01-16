@@ -1,28 +1,24 @@
 import { useState, useEffect } from 'react';
-import { SearchBar } from './components/SearchBar';
+import TextField from '@mui/material/TextField';
 import { UserCard } from './components/UserCard';
-
+import { ThemeProvider } from '@mui/material/styles';
+import theme from './styles/theme';
+import './App.css';
 
 function App() {
 
   const [data, setData] = useState([]);
-  const [searchRefresh, setSearchRefresh] = useState([]);
+  const [searchInput, setSearchInput] = useState('');
 
   const retrievedFavs = JSON.parse(localStorage.getItem("favoriteCards"));
-  const checkIfFavsExist = (retrievedFavs? retrievedFavs : []);
+  const checkIfFavsExist = (retrievedFavs ? retrievedFavs : []);
   const [favorites, setFavorites] = useState(checkIfFavsExist);
 
-  
   async function fetchData() {
     const response = await fetch('https://jsonplaceholder.typicode.com/users');
     const fetchedData = await response.json();
     setData(fetchedData);
   };
-  
-  // useEffect(() => {
-    
-  // }, []);
-
 
   useEffect(() => {
     fetchData();
@@ -32,18 +28,40 @@ function App() {
     let favsToBeStored = JSON.stringify(favorites);
     localStorage.setItem("favoriteCards", favsToBeStored);
   }, [favorites]);
-  
+
+  const handleInput = (event) => {
+    setSearchInput(event.target.value);
+  }
+
   return (
-    <div className="App" style={{ display: 'flex', paddingTop: '4rem', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
-      <SearchBar data={data} setData={setData} fetchData={fetchData}></SearchBar>
-      <header className="App-header" style={{ display: 'grid', rowGap: '2rem', columnGap: '4rem', gridTemplateColumns: 'auto auto auto auto auto', paddingTop: '4rem' }} >
+    <ThemeProvider theme={theme}>
+      <div className="App">
 
-        {data.map((user) =>
-        (<UserCard key={user.id} id={user.id} name={user.name} email={user.email} phone={user.phone} website={user.website} data={data} setData={setData}
-          favs={favorites} setFavs={setFavorites} favStatus={favorites.find(item => item.id === user.id)? true : false}></UserCard>))}
+        <TextField className='searchField' size='small' onChange={handleInput} placeholder='Search users...' > </TextField>
 
-      </header>
-    </div>
+        <header className="cards" >
+
+          {data.filter((user) => {
+            if (searchInput == '') {
+              return user;
+            } else if (user.name.toLowerCase().includes(searchInput.toLowerCase())) {
+              return user;
+            }
+          }).map((user) =>
+          (<UserCard key={user.id} 
+            id={user.id} 
+            name={user.name} 
+            email={user.email} 
+            phone={user.phone} 
+            website={user.website} 
+            data={data} setData={setData}
+            favorites={favorites} setFavorites={setFavorites} 
+            favStatus={favorites.find(item => item.id === user.id) ? true : false}> 
+            </UserCard>))}
+
+        </header>
+      </div>
+    </ThemeProvider>
   );
 }
 
