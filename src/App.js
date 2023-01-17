@@ -32,6 +32,7 @@ function App() {
   const handleInput = (event) => {
     setSearchInput(event.target.value);
   }
+  
 
   return (
     <ThemeProvider theme={theme}>
