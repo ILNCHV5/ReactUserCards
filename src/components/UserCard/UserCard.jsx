@@ -3,7 +3,7 @@ import { Card, IconButton, Typography, CardContent, CardActions, Box } from "@mu
 import { Favorite, Delete } from "@mui/icons-material";
 import styles from "../UserCard/cardStyles";
 
-export function UserCard({key, user }) {
+export function UserCard(props) {
 
     const cardAvatar = `https://avatars.dicebear.com/v2/avataaars/{${props.name}}.svg?options[mood][]=happy`;
     const [favStatus, setFavStatus] = useState(props.favStatus);

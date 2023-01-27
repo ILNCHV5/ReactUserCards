@@ -42,12 +42,12 @@ function CardsPage() {
         <Box className="cardsContainer">
           {filterUsers(users, search).map((user) =>
           (<UserCard key={user.id}
-            // id={user.id}
-            // name={user.name}
-            // email={user.email}
-            // phone={user.phone}
-            // website={user.website}
-            user={user}
+            id={user.id}
+            name={user.name}
+            email={user.email}
+            phone={user.phone}
+            website={user.website}
+            // user={user}
             users={users} setUsers={setUsers}
             favorites={favorites} setFavorites={setFavorites}
             favStatus={favorites.find(item => item.id === user.id) ? true : false} />))}
