@@ -1,6 +1,6 @@
 import React from "react";
 import { Box } from "@mui/system";
-import CardsPage from "./pages/cardsPage/CardsPage";
+import CardsPage from "./pages/cardsPage/CardsPage.jsx";
 
 function App(){
     return(
