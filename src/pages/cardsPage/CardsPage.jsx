@@ -47,10 +47,9 @@ function CardsPage() {
             email={user.email}
             phone={user.phone}
             website={user.website}
-            // user={user}
             users={users} setUsers={setUsers}
             favorites={favorites} setFavorites={setFavorites}
-            favStatus={favorites.find(item => item.id === user.id) ? true : false} />))}
+            isFav={favorites.find(item => item.id === user.id) ? true : false} />))}
         </Box>
       </Box>
     </ThemeProvider>

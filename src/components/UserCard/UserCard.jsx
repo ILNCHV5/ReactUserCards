@@ -2,30 +2,33 @@ import { React, useState } from "react";
 import { Card, IconButton, Typography, CardContent, CardActions, Box } from "@mui/material";
 import { Favorite, Delete } from "@mui/icons-material";
 import styles from "../UserCard/cardStyles";
+import PropTypes from 'prop-types'
+import { number } from "prop-types";
+import { alignProperty } from "@mui/material/styles/cssUtils";
 
-export function UserCard(props) {
+export function UserCard({ id, name, email, phone, website, users, setUsers, favorites, setFavorites, isFav }) {
 
-    const cardAvatar = `https://avatars.dicebear.com/v2/avataaars/{${props.name}}.svg?options[mood][]=happy`;
-    const [favStatus, setFavStatus] = useState(props.favStatus);
+    const cardAvatar = `https://avatars.dicebear.com/v2/avataaars/{${name}}.svg?options[mood][]=happy`;
+    const [favStatus, setFavStatus] = useState(isFav);
 
     const addToFavs = () => {
-        if (props.favorites.indexOf({ id: props.id }) !== 1) {
-            props.setFavorites([...props.favorites, { id: props.id }]);
+        if (favorites.indexOf({ id: id }) !== 1) {
+            setFavorites([...favorites, { id: id }]);
             setFavStatus(true);
         }
     };
 
     const removeFromFavs = () => {
-        const filteredFavs = props.favorites.filter((item) => (item.id !== props.id));
-        props.setFavorites(filteredFavs);
+        const filteredFavs = favorites.filter((item) => (item.id !== id));
+        setFavorites(filteredFavs);
         setFavStatus(false);
     };
 
     const handleFavs = (favStatus ? removeFromFavs : addToFavs);
 
     const handleDelete = () => {
-        const filteredList = props.users.filter((item) => (item.id !== props.id));
-        props.setUsers(filteredList);
+        const filteredList = users.filter((item) => (item.id !== id));
+        setUsers(filteredList);
     };
 
     return (
@@ -44,20 +47,33 @@ export function UserCard(props) {
                     <Box sx={styles.gradientBoxStyle} />
                 </Box>
                 <CardContent sx={styles.cardContentStyle}>
-                    <Typography sx={styles.cardTypographyStyleLeft}>
-                        Name <br></br>
-                        Email <br></br>
-                        Phone <br></br>
-                        Website
-                    </Typography>
-                    <Typography sx={styles.cardTypographyStyleRight}>
-                        {props.name} <br></br>
-                        {props.email} <br></br>
-                        {props.phone} <br></br>
-                        {props.website}
-                    </Typography>
+                    <Typography component='div' sx={styles.cardTypographyStyle}>
+                        <Box>Name</Box>
+                        <Box>{name}</Box> </Typography>
+                    <Typography component='div' sx={styles.cardTypographyStyle}>
+                        <Box>Email</Box>
+                        <Box>{email}</Box> </Typography>
+                    <Typography component='div' sx={styles.cardTypographyStyle}>
+                        <Box>Phone</Box>
+                        <Box>{phone}</Box> </Typography>
+                    <Typography component='div' sx={styles.cardTypographyStyle}>
+                        <Box>Website</Box>
+                        <Box>{website}</Box> </Typography>
                 </CardContent>
             </Card>
         </Box>
     )
+}
+
+UserCard.propTypes = {
+    id: PropTypes.number,
+    name: PropTypes.string,
+    email: PropTypes.string,
+    phone: PropTypes.string,
+    website: PropTypes.string,
+    users: PropTypes.array,
+    setUsers: PropTypes.func,
+    favorites: PropTypes.array,
+    setFavorites: PropTypes.func,
+    isFav: PropTypes.bool
 }
