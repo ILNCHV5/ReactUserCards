@@ -3,8 +3,6 @@ import { Card, IconButton, Typography, CardContent, CardActions, Box } from "@mu
 import { Favorite, Delete } from "@mui/icons-material";
 import styles from "../UserCard/cardStyles";
 import PropTypes from 'prop-types'
-import { number } from "prop-types";
-import { alignProperty } from "@mui/material/styles/cssUtils";
 
 export function UserCard({ id, name, email, phone, website, users, setUsers, favorites, setFavorites, isFav }) {
 
