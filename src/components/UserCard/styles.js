@@ -1,6 +1,3 @@
-import { textAlign } from "@mui/system";
-
-
 const styles = {
     cardActionStyle: {
         mb: '-4rem'

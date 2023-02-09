@@ -1,58 +1,57 @@
-import { React, useState, useEffect } from 'react';
-import { Box, TextField, ThemeProvider } from '@mui/material';
+import React, { useState, useEffect, useRef } from 'react';
+import { Box, TextField } from '@mui/material';
 import { UserCard } from '../../components/UserCard/UserCard';
-import theme from './theme';
 import './CardsPageStyles.css';
-import fetchUserData from '../../api/usersApi';
-import useLocalStorage from '../../customHooks/useLocalStorage';
+import { fetchUserData } from '../../api/usersApi';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
 
 function CardsPage() {
-
   const [users, setUsers] = useState([]);
-  const [search, setSearch] = useState('');
-  const [favorites, setFavorites] = useLocalStorage([]);
+  const [favorites, toggleFavorite] = useLocalStorage([]);
 
   useEffect(() => {
-    fetchUserData().then(fetchedData => setUsers(fetchedData));
-  }, []);
-
-  const handleInputChange = (event) => {
-    setSearch(event.target.value);
-  }
-
-  const filterUsers = (users, search) => {
-    return users.filter((user) => {
-      if (users.length !== 0 && search === '') {
-        return user;
-      } else if (user.name.toLowerCase().includes(search.toLowerCase())) {
-        return user;
+    (async () => {
+      if (users.length === 0) {
+        const userData = await fetchUserData();
+        setUsers(userData.map(user => ({ ...user, isFavorite: checkIfFavorite(user.id) })));
       } else {
-        return null;
+        setUsers(users.map(user => ({ ...user, isFavorite: checkIfFavorite(user.id) })));
       }
-    });
+    })();
+  }, [favorites]);
+
+  const checkIfFavorite = (id) => {
+    const favorite = favorites.find(user => user.id === id);
+    return favorites.find(user => user.id === id) ? favorite.isFavorite : false;
   }
+
+  const handleSearchUser = (event) => {
+    setUsers(users.filter(user => user.name.toLowerCase().includes(event.target.value.toLowerCase())))
+  };
+
+  const handleFavoritesButtonClick = (id, isFavorite) => {
+    toggleFavorite(id, isFavorite)
+  };
+
+  const handleDeleteButtonClick = (id) => {
+    setUsers(users.filter((item) => (item.id !== id)))
+  };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Box className="CardsPage">
-        <TextField className='searchField'
-          size='small'
-          onChange={handleInputChange}
-          placeholder='Search users...' />
-        <Box className="cardsContainer">
-          {filterUsers(users, search).map((user) =>
-          (<UserCard key={user.id}
-            id={user.id}
-            name={user.name}
-            email={user.email}
-            phone={user.phone}
-            website={user.website}
-            users={users} setUsers={setUsers}
-            favorites={favorites} setFavorites={setFavorites}
-            isFav={favorites.find(item => item.id === user.id) ? true : false} />))}
-        </Box>
+    <Box className="cardsPage">
+      <TextField className='searchField'
+        size='small'
+        onChange={handleSearchUser}
+        placeholder='Search users...' />
+      <Box className="cardsContainer">
+        {users.map((user) =>
+        (<UserCard key={user.id}
+          user={user}
+          handleDeleteButtonClick={handleDeleteButtonClick}
+          handleFavoritesButtonClick={handleFavoritesButtonClick}
+        />))}
       </Box>
-    </ThemeProvider>
+    </Box>
   );
 }
 

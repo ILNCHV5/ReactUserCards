@@ -1,12 +1,13 @@
 import React from "react";
-import { Box } from "@mui/system";
-import CardsPage from "./pages/cardsPage/CardsPage.jsx";
+import CardsPage from "./pages/CardsPage/CardsPage.jsx";
+import { ThemeProvider } from '@mui/material';
+import theme from './theme';
 
-function App(){
-    return(
-        <Box>
+function App() {
+    return (
+        <ThemeProvider theme={theme}>
             <CardsPage />
-        </Box>
+        </ThemeProvider>
     )
 }
 
