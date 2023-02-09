@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, TextField } from '@mui/material';
 import { UserCard } from '../../components/UserCard/UserCard';
 import './CardsPageStyles.css';
