@@ -11,12 +11,9 @@ function CardsPage() {
 
   useEffect(() => {
     (async () => {
-      if (users.length === 0) {
-        const userData = await fetchUserData();
-        setUsers(userData.map(user => ({ ...user, isFavorite: checkIfFavorite(user.id) })));
-      } else {
-        setUsers(users.map(user => ({ ...user, isFavorite: checkIfFavorite(user.id) })));
-      }
+      const userData = await fetchUserData();
+      const dataSource = users.length === 0? userData: users;
+      setUsers(dataSource.map(user => ({ ...user, isFavorite: checkIfFavorite(user.id) })));
     })();
   }, [favorites]);
 
