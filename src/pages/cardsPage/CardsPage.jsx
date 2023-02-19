@@ -3,31 +3,23 @@ import { Box, TextField } from '@mui/material';
 import { UserCard } from '../../components/UserCard/UserCard';
 import './CardsPageStyles.css';
 import { fetchUserData } from '../../api/usersApi';
-import { useLocalStorage } from '../../hooks/useLocalStorage';
 
 function CardsPage() {
   const [users, setUsers] = useState([]);
-  const [favorites, toggleFavorite] = useLocalStorage([]);
 
   useEffect(() => {
     (async () => {
-      const userData = await fetchUserData();
-      const dataSource = users.length === 0? userData: users;
-      setUsers(dataSource.map(user => ({ ...user, isFavorite: checkIfFavorite(user.id) })));
+      const fetchedUsers = await fetchUserData();
+      setUsers(fetchedUsers.map(user => ({ ...user, isFavorite: false})));
     })();
-  }, [favorites]);
-
-  const checkIfFavorite = (id) => {
-    const favorite = favorites.find(user => user.id === id);
-    return favorites.find(user => user.id === id) ? favorite.isFavorite : false;
-  }
-
+  }, []);
+  
   const handleSearchUser = (event) => {
     setUsers(users.filter(user => user.name.toLowerCase().includes(event.target.value.toLowerCase())))
   };
-
-  const handleFavoritesButtonClick = (id, isFavorite) => {
-    toggleFavorite(id, isFavorite)
+  
+  const handleFavoritesButtonClick = (id) => {
+    setUsers(users.map(user => user.id === id ? {...user, isFavorite: !user.isFavorite} : user));
   };
 
   const handleDeleteButtonClick = (id) => {
