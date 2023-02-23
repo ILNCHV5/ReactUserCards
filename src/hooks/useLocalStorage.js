@@ -1,18 +1,14 @@
 import { useState, useEffect } from 'react'
 
-export function useLocalStorage() {
+export function useLocalStorage(users) {
   const [favorites, setFavorites] = useState(JSON.parse(localStorage.getItem('favoriteCards')) || []);
-  
+
   useEffect(() => {
+    if (!favorites.length) {
+      setFavorites(users.map(user => ({ id: user.id, isFavorite: user.isFavorite })))
+    }
     localStorage.setItem("favoriteCards", JSON.stringify(favorites));
-  }, [favorites]);
+  }, [favorites, users]);
 
-  function toggleFavorite(id, isFavorite) {  
-    setFavorites(favorites.find(item => item.id === id)
-    ? favorites.map(item => item.id === id ? {...item, isFavorite: !item.isFavorite} : item)
-    : [...favorites, {id: id, isFavorite: !isFavorite}])  
-  }
-
-  return [favorites, toggleFavorite];
+  return [favorites, setFavorites];
 }
-
