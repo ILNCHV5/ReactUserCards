@@ -1,5 +1,5 @@
 import React from "react";
-import CardsPage from "./pages/CardsPage/CardsPage.jsx";
+import CardsPage from "./pages/CardsPage1/CardsPage.jsx";
 import { ThemeProvider } from '@mui/material';
 import theme from './theme';
 
