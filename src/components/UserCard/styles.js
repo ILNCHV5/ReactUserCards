@@ -1,5 +1,3 @@
-
-
 const styles = {
     cardActionStyle: {
         mb: '-4rem'
@@ -55,20 +53,21 @@ const styles = {
     cardContentStyle: {
         display: 'flex',
         alignItems: 'center',
+        flexDirection: 'column',
         justifyContent: 'space-between',
         bgcolor: 'lightblue',
         borderRadius: 3.5,
         width: '10rem',
-        height: '2.4rem',
-        pt: '1.4rem'
+        height: '3rem'
     },
-    cardTypographyStyleLeft:{
+    cardTypographyStyle:{
+        width: '100%',
         fontSize: '0.6rem',
-        textAlign:'left'
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
     },
-    cardTypographyStyleRight:{
-        fontSize: '0.6rem',
-        textAlign:'right'
-    }
+    
+    
 }
 export default styles;
